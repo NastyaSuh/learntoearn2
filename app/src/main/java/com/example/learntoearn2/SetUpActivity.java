@@ -15,14 +15,17 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -57,7 +60,7 @@ public class SetUpActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         userRef = FirebaseDatabase.getInstance().getReference().child("Users");
-        userProfileImageRef = FirebaseStorage.getInstance().getReference().child("Profile Images");
+        userProfileImageRef = FirebaseStorage.getInstance().getReference().child("profileimages");
         currentuserId = mAuth.getCurrentUser().getUid();
 
         loadingBar = new ProgressDialog(this);
@@ -75,7 +78,24 @@ public class SetUpActivity extends AppCompatActivity {
                 Intent galleryIntent = new Intent();
                 galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
                 galleryIntent.setType("images/*");
-                startActivityForResult(galleryIntent, Gallery_Pick );
+                startActivityForResult(Intent.createChooser(galleryIntent, "Выбрать фотографию"), Gallery_Pick );
+            }
+        });
+
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()) {
+                    if (dataSnapshot.hasChild("profileimages")) {
+                        String image = dataSnapshot.child("profileimages").getValue().toString();
+                        Picasso.get().load(image).placeholder(R.drawable.profile).into(avatar);
+                    } else {
+                        Toast.makeText(SetUpActivity.this, "Сначала выберите фотографию", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
     }
@@ -99,36 +119,31 @@ public class SetUpActivity extends AppCompatActivity {
                 loadingBar.setCanceledOnTouchOutside(true);
 
                 Uri resultUri = result.getUri();
-                StorageReference filePath = userProfileImageRef.child(currentuserId + ".png");
-                filePath.putFile(resultUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                StorageReference filePath = userProfileImageRef.child(currentuserId + ".jpg");
+                filePath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                     @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        userProfileImageRef.child(currentuserId + ".jpg").getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Uri> task) {
-                                if (task.isSuccessful()){
-                                    Toast.makeText(SetUpActivity.this, "Фотография загружена", Toast.LENGTH_SHORT).show();
-                                    loadingBar.dismiss();
-                                    final String dowloadUrl = task.getResult().toString();
-                                    userRef.child("Profile Images").setValue(dowloadUrl).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if(task.isSuccessful()){
+                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(SetUpActivity.this, "Profile Image stored successfully to Firebase storage...", Toast.LENGTH_SHORT).show();
+                            final String downloadUrl = task.getResult().getStorage().getDownloadUrl().toString();
 
-                                                Toast.makeText(SetUpActivity.this, "Фотография успешно загружена в базу данных Firebase", Toast.LENGTH_SHORT).show();
-                                                loadingBar.dismiss();
-                                            }
-                                            else{
-                                                String message = task.getException().getMessage();
-                                                Toast.makeText(SetUpActivity.this, "Произошла ошибка"+message, Toast.LENGTH_SHORT).show();
-                                                loadingBar.dismiss();
-                                            }
-                                        }
-                                    });
-
+                            userRef.child("profileimages").setValue(downloadUrl).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()){
+                                        Intent setupintent = new Intent(SetUpActivity.this, SetUpActivity.class);
+                                        startActivity(setupintent);
+                                        Toast.makeText(SetUpActivity.this, "Фотография успешно загружена в Базу Данных", Toast.LENGTH_SHORT).show();
+                                        loadingBar.dismiss();
+                                    }
+                                    else{
+                                        String message = task.getException().getMessage();
+                                        Toast.makeText(SetUpActivity.this, "Error Occured: " + message, Toast.LENGTH_SHORT).show();
+                                        loadingBar.dismiss();
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
                     }
                 });
             }
@@ -140,7 +155,6 @@ public class SetUpActivity extends AppCompatActivity {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-
     private void Save_SetUp_Information() {
         String username = name.getText().toString();
         String usersurname = surname.getText().toString();
