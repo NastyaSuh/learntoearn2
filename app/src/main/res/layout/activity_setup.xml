@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F1FBF4"
+    tools:context=".Profile">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:srcCompat="@drawable/rectangle2" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/avatar"
+        android:layout_width="224dp"
+        android:layout_height="206dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="91dp"
+        android:layout_marginBottom="418dp"
+        android:src="@drawable/profile" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="112dp"
+        android:src="@drawable/rectangle14" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="348dp"
+        android:layout_marginBottom="341dp"
+        android:fontFamily="@font/roboto_slab"
+        android:text="@string/name"
+        android:textColor="#8F8989"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/change_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="268dp"
+        android:layout_marginBottom="283dp"
+        android:fontFamily="@font/roboto_slab"
+        android:hint="@string/hintname"
+        android:text=""
+        android:textColor="#000000"
+        android:textColorHint="#8F8989"
+        android:textSize="18sp" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="306dp"
+        android:layout_marginBottom="239dp"
+        android:fontFamily="@font/roboto_slab"
+        android:text="@string/surname"
+        android:textColor="#8F8989"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/change_surname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="216dp"
+        android:layout_marginBottom="182dp"
+        android:fontFamily="@font/roboto_slab"
+        android:hint="@string/hintsurname"
+        android:text=""
+        android:textColor="#000000"
+        android:textColorHint="#8F8989"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/button_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="108dp"
+        android:layout_marginLeft="118dp"
+        android:layout_marginEnd="115dp"
+        android:layout_marginBottom="127dp"
+        android:background="#FFFFFFFF"
+        android:shadowColor="#8F8989"
+        android:text="@string/button_save" />
+</RelativeLayout>

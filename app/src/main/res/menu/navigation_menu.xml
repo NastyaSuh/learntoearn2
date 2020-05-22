@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/home"
+        android:iconTint="#F1FBF4"
+        android:title="@string/profile_in_shutter"
+        android:icon="@drawable/profile_icon"/>
+
+    <item
+        android:id="@+id/education"
+        android:iconTint="#F1FBF4"
+        android:title="@string/education_page"
+        android:icon="@drawable/education"/>
+
+    <item
+        android:id="@+id/profile_settings"
+        android:iconTint="#F1FBF4"
+        android:title="@string/profile_settings"
+        android:icon="@drawable/tool"/>
+    <item
+        android:id="@+id/log_out"
+        android:iconTint="#F1FBF4"
+        android:title="@string/log_out"
+        android:icon="@drawable/logout"/>
+
+</menu>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#F1FBF4"
+    android:backgroundTint="#F1FBF4"
+    app:cardElevation="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        android:background="#FFFFFF"
+        android:backgroundTint="#FFFFFF"
+        android:orientation="vertical">
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/emailField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_slab"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:text=""
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="#303F9F"
+            android:textSize="20sp"
+            app:met_maxCharacters="15"
+            app:met_minCharacters="5"
+            android:textStyle="normal"
+            app:met_baseColor="#070707"
+            app:met_errorColor="#ddaa00"
+            app:met_floatingLabel="normal"
+            app:met_primaryColor="#982360"
+            app:met_singleLineEllipsis="true" />
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/passwordField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_slab"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:text=""
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="#303F9F"
+            android:textSize="20sp"
+            app:met_baseColor="#070707"
+            app:met_errorColor="#ddaa00"
+            app:met_floatingLabel="normal"
+            app:met_maxCharacters="15"
+            app:met_minCharacters="5"
+            app:met_primaryColor="#982360"
+            app:met_singleLineEllipsis="true" />
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/nameField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_slab"
+            android:hint="Enter the name"
+            android:inputType=""
+            android:text=""
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="#303F9F"
+            android:textSize="20sp"
+            app:met_minCharacters="1"
+            app:met_baseColor="#070707"
+            app:met_errorColor="#ddaa00"
+            app:met_floatingLabel="normal"
+            app:met_primaryColor="#982360"
+            app:met_singleLineEllipsis="true" />
+
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

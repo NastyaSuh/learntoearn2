@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">LearnToEarn2</string>
+    <string name="learn_to_earn">Learn to Earn</string>
+    <string name="button_login">Войти в систему</string>
+    <string name="button_signup">Зарегистрироваться</string>
+    <string name="button_forgot_password">Забыли пароль?</string>
+    <string name="profile_in_shutter">Профиль</string>
+    <string name="profile_settings">Настройки</string>
+    <string name="education_page">Обучение</string>
+    <string name="log_out">Выйти из системы</string>
+    <string name="drawer_open">Drawer is Opened</string>
+    <string name="drawer_close">Drawer is Closed</string>
+    <string name="name">Имя:</string>
+    <string name="surname">Фамилия</string>
+    <string name="hintname">Введите имя</string>
+    <string name="hintsurname">Введите фамилию</string>
+    <string name="button_save">Сохранить изменения!</string>
+</resources>

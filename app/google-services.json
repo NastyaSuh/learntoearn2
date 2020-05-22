@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "832958612555",
+    "firebase_url": "https://learntoearn2-6f1f4.firebaseio.com",
+    "project_id": "learntoearn2-6f1f4",
+    "storage_bucket": "learntoearn2-6f1f4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:832958612555:android:6c406c34c3fb3f9519f9ce",
+        "android_client_info": {
+          "package_name": "com.example.learntoearn2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "832958612555-d0mc9paqoklgvgq2omcp1fsrjbs28g24.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHxoMFuBWZGAcSvSIrtN6dmuQ4ACLu25A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "832958612555-d0mc9paqoklgvgq2omcp1fsrjbs28g24.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
