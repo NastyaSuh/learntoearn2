@@ -2,8 +2,10 @@ package com.example.learntoearn2;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -29,6 +31,7 @@ import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -43,6 +46,8 @@ public class SetUpActivity extends AppCompatActivity {
     private ProgressDialog loadingBar;
 
     final static int Gallery_Pick = 102;
+
+    private Uri ImageUri;
 
     private FirebaseAuth mAuth;
     private DatabaseReference userRef;
@@ -103,7 +108,7 @@ public class SetUpActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(requestCode == Gallery_Pick && resultCode == RESULT_OK && data != null){
-            Uri ImageUri = data.getData();
+            ImageUri = data.getData();
             CropImage.activity()
                     .setGuidelines(CropImageView.Guidelines.ON)
                     .setAspectRatio(1,1)
@@ -113,7 +118,7 @@ public class SetUpActivity extends AppCompatActivity {
         if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
 
-            if(requestCode == RESULT_OK){
+            if(resultCode == RESULT_OK){
                 loadingBar.setTitle("Сохраняем изменения....");
                 loadingBar.show();
                 loadingBar.setCanceledOnTouchOutside(true);
@@ -152,6 +157,12 @@ public class SetUpActivity extends AppCompatActivity {
                 Toast.makeText(SetUpActivity.this, "Фотография не может быть обрезана", Toast.LENGTH_SHORT).show();
                 loadingBar.dismiss();
             }
+        }
+        try{
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), ImageUri);
+            avatar.setImageBitmap(bitmap);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
