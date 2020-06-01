@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -21,6 +22,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Profile extends AppCompatActivity {
 
@@ -29,8 +33,14 @@ public class Profile extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private Toolbar mToolbar;
     private ActionBarDrawerToggle actionBarDrawerToggle;
+    private CircleImageView navigation_avatar;
+    private TextView navigation_name;
+
     private FirebaseAuth mAuth;
     private DatabaseReference userReference;
+
+    String currentUserId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +53,12 @@ public class Profile extends AppCompatActivity {
 
         mAuth=FirebaseAuth.getInstance();
         userReference = FirebaseDatabase.getInstance().getReference().child("Users");
+        currentUserId = mAuth.getCurrentUser().getUid();
 
         View navView = navigationView.inflateHeaderView(R.layout.navigation_header);
+        navigation_avatar = navView.findViewById(R.id.nav_avatar);
+        navigation_name = navView.findViewById(R.id.nav_username);
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item)
@@ -56,12 +70,39 @@ public class Profile extends AppCompatActivity {
 
 
         setActionBar(mToolbar);
-        getActionBar().setTitle("Обучение");
+        getActionBar().setTitle("Профиль");
 
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open, R.string.drawer_close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
         getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        userReference.child(currentUserId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if(dataSnapshot.exists()){
+                    if(dataSnapshot.hasChild("name")){
+                        String fullname = dataSnapshot.child("name").getValue().toString();
+                        navigation_name.setText(fullname);
+                    }
+
+                    if(dataSnapshot.hasChild("profileimages")){
+                        String image = dataSnapshot.child("profileimages").getValue().toString();
+                        Picasso.get().load(image).placeholder(R.drawable.circle).into(navigation_avatar);
+                    }
+
+                    else{
+                        Toast.makeText(Profile.this, "Имени не существует", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
@@ -84,6 +125,7 @@ public class Profile extends AppCompatActivity {
 
             case R.id.education:
                 Toast.makeText(this, "Страница обучения", Toast.LENGTH_SHORT).show();
+                sendUsertoEducationSite();
                 break;
 
             case R.id.profile_settings:
@@ -138,6 +180,13 @@ public class Profile extends AppCompatActivity {
         Intent setupIntent = new Intent(this, SetUpActivity.class);
         setupIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(setupIntent);
+        finish();
+    }
+
+    private void sendUsertoEducationSite() {
+        Intent eduIntent = new Intent(this, Education_Site.class);
+        eduIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(eduIntent);
         finish();
     }
 }

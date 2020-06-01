@@ -13,7 +13,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="47dp"
         android:layout_marginBottom="31dp"
-        android:src="@drawable/profile"
+        android:src="@drawable/circle"
         app:civ_border_color="#2ECC71"
         app:civ_border_width="2dp">
     </de.hdodenhof.circleimageview.CircleImageView>
@@ -27,7 +27,7 @@
         android:layout_marginEnd="77dp"
         android:layout_marginBottom="4dp"
         android:fontFamily="@font/roboto_slab"
-        android:text="qwewerertrey"
+        android:text="username"
         android:textColor="#8F8989"
         android:textSize="18sp" />
 

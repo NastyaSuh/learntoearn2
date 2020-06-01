@@ -7,10 +7,11 @@
     android:background="#F1FBF4"
     tools:context=".Profile">
 
-    <ImageView
+    <View
+        android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:srcCompat="@drawable/rectangle2" />
+        android:layout_height="180dp"
+        android:background="#2ECC71"/>
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/avatar"

@@ -104,7 +104,8 @@ public class Registration_Or_LogIn extends AppCompatActivity {
                         }
 
                         else{
-                            Snackbar.make(root, "Failed to send reset password email", Snackbar.LENGTH_LONG).show();
+                            Snackbar.make(root,
+                                    "Failed to send reset password email", Snackbar.LENGTH_LONG).show();
                         }
 
                     }
@@ -124,7 +125,6 @@ public class Registration_Or_LogIn extends AppCompatActivity {
         dialog.setView(Register_Window);
         final MaterialEditText email = Register_Window.findViewById(R.id.emailField);
         final MaterialEditText password = Register_Window.findViewById(R.id.passwordField);
-        final MaterialEditText name = Register_Window.findViewById(R.id.nameField);
         dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int which) {
@@ -138,10 +138,6 @@ public class Registration_Or_LogIn extends AppCompatActivity {
             public void onClick(DialogInterface dialogInt, int which) {
                 if(TextUtils.isEmpty(email.getText().toString())){
                     Snackbar.make(root, "Enter your Email Adress", Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-                if(TextUtils.isEmpty(name.getText().toString())){
-                    Snackbar.make(root, "Enter your Name", Snackbar.LENGTH_LONG).show();
                     return;
                 }
                 if(password.getText().toString().length() < 5){
@@ -158,7 +154,6 @@ public class Registration_Or_LogIn extends AppCompatActivity {
                                 Info_to_Auth users = new Info_to_Auth();
                                 users.setEmail(email.getText().toString());
                                 users.setPassword(password.getText().toString());
-                                users.setName(name.getText().toString());
 
                                 user.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(users).
                                         addOnSuccessListener(new OnSuccessListener<Void>() {

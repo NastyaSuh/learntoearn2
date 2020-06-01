@@ -31,7 +31,10 @@
                 android:id="@+id/settings_list"
                 android:layout_width="match_parent"
                 android:layout_height="563dp" />
+
         </FrameLayout>
+
+
     </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView
@@ -41,5 +44,7 @@
         android:layout_gravity="start"
         android:layout_marginBottom="3dp"
         app:menu="@menu/navigation_menu" />
+
+
 
 </androidx.drawerlayout.widget.DrawerLayout>

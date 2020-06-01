@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <View
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:background="#2ECC71"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/roboto_slab"
+        android:textColor="@android:color/white"
+        android:text="Что изучает физика?"
+        android:textSize="36sp"
+        android:layout_marginTop="40dp"/>
+    <View
+        android:id="@+id/first"
+        android:layout_width="32dp"
+        android:layout_height="14dp"
+        android:background="#C4C4C4"
+        android:layout_below="@id/header"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="20dp"/>
+    <View
+        android:id="@+id/second"
+        android:layout_width="32dp"
+        android:layout_height="14dp"
+        android:background="#C4C4C4"
+        android:layout_toEndOf="@+id/first"
+        android:layout_alignTop="@+id/first"/>
+    <View
+        android:id="@+id/third"
+        android:layout_width="32dp"
+        android:layout_height="14dp"
+        android:background="#C4C4C4"
+        android:layout_toEndOf="@+id/second"
+        android:layout_alignTop="@+id/second"/>
+    <View
+        android:id="@+id/fourth"
+        android:layout_width="32dp"
+        android:layout_height="14dp"
+        android:background="#C4C4C4"
+        android:layout_toEndOf="@+id/third"
+        android:layout_alignTop="@+id/third"/>
+    <View
+        android:id="@+id/fifth"
+        android:layout_width="32dp"
+        android:layout_height="14dp"
+        android:background="#C4C4C4"
+        android:layout_toEndOf="@+id/fourth"
+        android:layout_alignTop="@+id/fourth"/>
+    <TextView
+        android:id="@+id/question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/first"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/roboto_slab"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="317dp"
+        android:layout_below="@+id/first"
+        android:layout_marginTop="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/startPhysic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/roboto_slab"
+                android:textSize="14dp" />
+
+            <Button
+                android:id="@+id/firstbutton"
+                style="@style/btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp" />
+
+            <TextView
+                android:id="@+id/startPhysic2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/startPhysic"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/roboto_slab"
+                android:textSize="14dp" />
+
+            <Button
+                android:id="@+id/secondbutton"
+                style="@style/btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/firstbutton"
+                android:layout_marginTop="20dp" />
+
+            <Button
+                android:id="@+id/thirdbutton"
+                style="@style/btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/secondbutton"
+                android:layout_marginTop="20dp" />
+
+
+            <TextView
+                android:id="@+id/startPhysic3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/startPhysic2"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/roboto_slab"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/startPhysic4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/startPhysic3"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/roboto_slab"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/startPhysic5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/startPhysic4"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/roboto_slab"
+                android:textSize="14dp" />
+
+        </RelativeLayout>
+
+
+    </ScrollView>
+    <Button
+        android:id="@+id/startTest"
+        android:layout_marginTop="30dp"
+        android:layout_width="167dp"
+        android:layout_height="46dp"
+        style="@style/btn"
+        android:background="#2ECC71"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/footer"
+        android:text="Пройти тест"
+        android:textColor="@android:color/white"/>
+
+    <View
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:background="#EDECEC"
+        />
+    <ImageButton
+        android:id="@+id/homebtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/ImageBtn"
+        android:src="@drawable/homebtn"
+        android:layout_alignTop="@id/footer"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        />
+    <ImageButton
+        android:id="@+id/returnbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/ImageBtn"
+        android:src="@drawable/backbtn"
+        android:layout_alignTop="@id/footer"
+        android:layout_marginTop="10dp"
+        android:layout_toLeftOf="@id/homebtn"
+        android:layout_marginEnd="60dp" />
+
+
+</RelativeLayout>

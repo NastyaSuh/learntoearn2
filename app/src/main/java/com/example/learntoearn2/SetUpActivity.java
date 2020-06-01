@@ -2,10 +2,8 @@ package com.example.learntoearn2;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -31,7 +30,6 @@ import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
-import java.io.IOException;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -47,11 +45,9 @@ public class SetUpActivity extends AppCompatActivity {
 
     final static int Gallery_Pick = 102;
 
-    private Uri ImageUri;
-
     private FirebaseAuth mAuth;
-    private DatabaseReference userRef;
-    private StorageReference  userProfileImageRef;
+    private DatabaseReference userRef;   //user Reference
+    private StorageReference  UserProfileImageRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +61,8 @@ public class SetUpActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         userRef = FirebaseDatabase.getInstance().getReference().child("Users");
-        userProfileImageRef = FirebaseStorage.getInstance().getReference().child("profileimages");
-        currentuserId = mAuth.getCurrentUser().getUid();
+        UserProfileImageRef = FirebaseStorage.getInstance().getReference().child("Profile Images"); //создаем папку, где будут хранится фотографии
+        currentuserId = mAuth.getCurrentUser().getUid(); //получаем уникальный айдишник пользователя
 
         loadingBar = new ProgressDialog(this);
 
@@ -80,92 +76,104 @@ public class SetUpActivity extends AppCompatActivity {
         avatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent galleryIntent = new Intent();
-                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-                galleryIntent.setType("images/*");
-                startActivityForResult(Intent.createChooser(galleryIntent, "Выбрать фотографию"), Gallery_Pick );
+                open_gallery();
             }
         });
 
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()) {
-                    if (dataSnapshot.hasChild("profileimages")) {
+                if(dataSnapshot.exists()){
+
+                    if(dataSnapshot.hasChild("profileimages")){
+
+                        //получаем ссылку на конкретное изображение
                         String image = dataSnapshot.child("profileimages").getValue().toString();
+
+                        //Показываем изображение на месте
                         Picasso.get().load(image).placeholder(R.drawable.profile).into(avatar);
-                    } else {
-                        Toast.makeText(SetUpActivity.this, "Сначала выберите фотографию", Toast.LENGTH_SHORT).show();
+                    }
+
+                    else{
+                        Toast.makeText(SetUpActivity.this, "Выберите фотографию", Toast.LENGTH_LONG).show();
                     }
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(requestCode == Gallery_Pick && resultCode == RESULT_OK && data != null){
-            ImageUri = data.getData();
-            CropImage.activity()
-                    .setGuidelines(CropImageView.Guidelines.ON)
+
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == Gallery_Pick && resultCode == RESULT_OK  && data != null){
+            Uri ImageUri = data.getData();
+
+            CropImage.activity().setGuidelines(CropImageView.Guidelines.ON)
                     .setAspectRatio(1,1)
                     .start(this);
         }
 
+        //Обрезаем фотографию
         if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
 
+            loadingBar.setTitle("Сохраняем изменения....");
+            loadingBar.show();
+            loadingBar.setCanceledOnTouchOutside(true);
+
             if(resultCode == RESULT_OK){
-                loadingBar.setTitle("Сохраняем изменения....");
-                loadingBar.show();
-                loadingBar.setCanceledOnTouchOutside(true);
-
                 Uri resultUri = result.getUri();
-                StorageReference filePath = userProfileImageRef.child(currentuserId + ".jpg");
-                filePath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                        if(task.isSuccessful()){
-                            Toast.makeText(SetUpActivity.this, "Profile Image stored successfully to Firebase storage...", Toast.LENGTH_SHORT).show();
-                            final String downloadUrl = task.getResult().getStorage().getDownloadUrl().toString();
 
-                            userRef.child("profileimages").setValue(downloadUrl).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if(task.isSuccessful()){
-                                        Intent setupintent = new Intent(SetUpActivity.this, SetUpActivity.class);
-                                        startActivity(setupintent);
-                                        Toast.makeText(SetUpActivity.this, "Фотография успешно загружена в Базу Данных", Toast.LENGTH_SHORT).show();
-                                        loadingBar.dismiss();
+                final StorageReference filepath = UserProfileImageRef.child(currentuserId + ".jpg"); //создаем фолдер для хранения фотографии определенного пользователя
+
+                //отправляем наше изображение в Firebase Storage
+                filepath.putFile(resultUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        filepath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                final String downloadUri = uri.toString();
+                                userRef.child("profileimages").setValue(downloadUri).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful()){
+                                            Toast.makeText(SetUpActivity.this, "Фотография загружена в базу данных", Toast.LENGTH_SHORT).show();
+                                            loadingBar.dismiss();
+                                        }
+                                        else{
+                                            String message = task.getException().getMessage();
+                                            Toast.makeText(SetUpActivity.this, "Ошибка"+message, Toast.LENGTH_SHORT).show();
+                                            loadingBar.dismiss();
+                                        }
                                     }
-                                    else{
-                                        String message = task.getException().getMessage();
-                                        Toast.makeText(SetUpActivity.this, "Error Occured: " + message, Toast.LENGTH_SHORT).show();
-                                        loadingBar.dismiss();
-                                    }
-                                }
-                            });
-                        }
+                                });
+                            }
+                        });
                     }
                 });
             }
-
             else{
-                Toast.makeText(SetUpActivity.this, "Фотография не может быть обрезана", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SetUpActivity.this, "Фотография не обрезается", Toast.LENGTH_SHORT).show();
                 loadingBar.dismiss();
             }
         }
-        try{
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), ImageUri);
-            avatar.setImageBitmap(bitmap);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        super.onActivityResult(requestCode, resultCode, data);
     }
+
+    private void open_gallery() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Выбрать фотографию"), Gallery_Pick);
+    }
+
     private void Save_SetUp_Information() {
         String username = name.getText().toString();
         String usersurname = surname.getText().toString();
