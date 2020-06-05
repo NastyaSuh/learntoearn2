@@ -83,5 +83,7 @@
     <string name="a12">Выберите правильные единицы измерения</string>
     <string name="a13">Выберите правильный ответ</string>
     <string name="therms">Некоторые\n физические\nтермины</string>
+    <string name="enable_notifications">Включить уведомления</string>
+    <string name="grade">Класс:</string>
 
 </resources>

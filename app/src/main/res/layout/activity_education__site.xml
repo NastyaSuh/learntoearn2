@@ -28,22 +28,25 @@
         android:id="@+id/nav_avatar"
         android:layout_width="170dp"
         android:layout_height="119dp"
-        android:layout_marginEnd="47dp"
-        android:layout_marginBottom="31dp"
-        android:src="@drawable/circle"
-        app:civ_border_color="#2ECC71"
-        app:civ_border_width="2dp" />
+        android:layout_alignBottom="@+id/header"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="241dp"
+        android:layout_marginBottom="6dp"
+        android:src="@drawable/profile" />
 
-    <Button
+    <TextView
         android:id="@+id/userName"
-        android:layout_width="223dp"
-        android:layout_height="34dp"
-        style="@style/btn"
-        android:textSize="20sp"
-        android:text="__"
-        android:textColor="@android:color/black"
-        android:layout_marginStart="147dp"
-        android:layout_marginTop="31dp" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="131dp"
+        android:layout_marginBottom="653dp"
+        android:fontFamily="@font/roboto_slab"
+        android:text="username"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="22sp" />
 
     <ImageButton
         android:id="@+id/theory"
@@ -65,32 +68,14 @@
         android:layout_alignTop="@+id/theory"
         android:layout_marginStart="20dp" />
 
-    <View
-        android:id="@+id/footer"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
+    <ImageView
+        android:id="@+id/backtoProfile"
+        android:layout_width="27dp"
+        android:layout_height="31dp"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:background="#EDECEC" />
-
-    <ImageButton
-        android:id="@+id/homebtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/ImageBtn"
-        android:src="@drawable/homebtn"
-        android:layout_alignTop="@id/footer"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp" />
-
-    <ImageButton
-        android:id="@+id/returnbtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/ImageBtn"
-        android:src="@drawable/backbtn"
-        android:layout_alignTop="@id/footer"
-        android:layout_marginTop="10dp"
-        android:layout_toLeftOf="@id/homebtn"
-        android:layout_marginEnd="60dp" />
+        android:layout_marginEnd="380dp"
+        android:layout_marginBottom="3dp"
+        app:srcCompat="@drawable/back" />
 
 </RelativeLayout>

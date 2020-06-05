@@ -3,22 +3,64 @@
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <View
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="130dp"
-        android:background="#2ECC71"/>
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp"
+        android:background="#2ECC71" />
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/nav_avatar"
         android:layout_width="170dp"
         android:layout_height="119dp"
-        android:layout_marginEnd="47dp"
-        android:layout_marginBottom="31dp"
-        android:src="@drawable/circle"/>
+        android:layout_alignBottom="@+id/header"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="241dp"
+        android:layout_marginBottom="6dp"
+        android:src="@drawable/profile" />
+
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/header"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="132dp"
+        android:layout_marginBottom="79dp"
+        android:fontFamily="@font/roboto_slab"
+        android:text="Username"
+        android:textColor="#FFFFFF"
+        android:textSize="22sp" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/header"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="157dp"
+        android:layout_marginBottom="46dp"
+        android:fontFamily="@font/roboto_slab"
+        android:text="Прогресс"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/header"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="104dp"
+        android:layout_marginBottom="29dp"
+        android:src="@drawable/rect17" />
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="440dp"
+        android:layout_height="600dp"
         android:layout_below="@+id/header" >
         <RelativeLayout
             android:layout_width="match_parent"
@@ -66,36 +108,15 @@
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/pressure"
             android:layout_marginTop="15dp"/>
-
         </RelativeLayout>
     </ScrollView>
-    <View
-        android:id="@+id/footer"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
+    <ImageView
+        android:id="@+id/backtoProfile"
+        android:layout_width="27dp"
+        android:layout_height="31dp"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:background="#EDECEC"
-        />
-    <ImageButton
-        android:id="@+id/homebtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/ImageBtn"
-        android:src="@drawable/homebtn"
-        android:layout_alignTop="@id/footer"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        />
-    <ImageButton
-        android:id="@+id/returnbtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/ImageBtn"
-        android:src="@drawable/backbtn"
-        android:layout_alignTop="@id/footer"
-        android:layout_marginTop="10dp"
-        android:layout_toLeftOf="@id/homebtn"
-        android:layout_marginEnd="60dp" />
-
-
+        android:layout_marginEnd="380dp"
+        android:layout_marginBottom="3dp"
+        app:srcCompat="@drawable/back" />
 </RelativeLayout>

@@ -2,8 +2,10 @@ package com.example.learntoearn2;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
@@ -14,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -33,11 +36,14 @@ public class Profile extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private Toolbar mToolbar;
     private ActionBarDrawerToggle actionBarDrawerToggle;
-    private CircleImageView navigation_avatar;
-    private TextView navigation_name;
+    private CircleImageView Profile_ava;
+    private TextView Navigation_name;
+    private TextView Email;
+    //private TextView Surname;
+    private Switch switch_notifications;
 
     private FirebaseAuth mAuth;
-    private DatabaseReference userReference;
+    DatabaseReference userReference;
 
     String currentUserId;
 
@@ -51,13 +57,17 @@ public class Profile extends AppCompatActivity {
         navigationView = findViewById(R.id.navigate);
         mToolbar = findViewById(R.id.main_info_bar);
 
+        switch_notifications = findViewById(R.id.switch1);
+
         mAuth=FirebaseAuth.getInstance();
         userReference = FirebaseDatabase.getInstance().getReference().child("Users");
         currentUserId = mAuth.getCurrentUser().getUid();
 
         View navView = navigationView.inflateHeaderView(R.layout.navigation_header);
-        navigation_avatar = navView.findViewById(R.id.nav_avatar);
-        navigation_name = navView.findViewById(R.id.nav_username);
+        Profile_ava = findViewById(R.id.avatar);
+        Navigation_name = findViewById(R.id.userName);
+        Email = findViewById(R.id.email);
+        //Surname = findViewById(R.id.userSurname);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -81,29 +91,28 @@ public class Profile extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                if(dataSnapshot.exists()){
-                    if(dataSnapshot.hasChild("name")){
-                        String fullname = dataSnapshot.child("name").getValue().toString();
-                        navigation_name.setText(fullname);
-                    }
+                if (dataSnapshot.exists()) {
+                    String retrieving_avatar = dataSnapshot.child("profileimages").getValue().toString();
+                    String retrieving_name = dataSnapshot.child("name").getValue().toString();
+                    String retrieving_email = dataSnapshot.child("email").getValue().toString();
+                    String retrieving_surname = dataSnapshot.child("surname").getValue().toString();
 
-                    if(dataSnapshot.hasChild("profileimages")){
-                        String image = dataSnapshot.child("profileimages").getValue().toString();
-                        Picasso.get().load(image).placeholder(R.drawable.circle).into(navigation_avatar);
-                    }
 
-                    else{
-                        Toast.makeText(Profile.this, "Имени не существует", Toast.LENGTH_SHORT).show();
-                    }
+                    Picasso.get().load(retrieving_avatar).into(Profile_ava);
+                    Email.setText(retrieving_email);
+                    Navigation_name.setText(retrieving_name);
+                    //Surname.setText(retrieving_surname);
+                    Log.d("DatabaseError", dataSnapshot.toString());
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
+            public void onCancelled(@NonNull DatabaseError databaseError){
+                Log.d("DatabaseError", databaseError.getMessage());
             }
         });
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
@@ -184,7 +193,7 @@ public class Profile extends AppCompatActivity {
     }
 
     private void sendUsertoEducationSite() {
-        Intent eduIntent = new Intent(this, Education_Site.class);
+        Intent eduIntent = new Intent(this, Theory.class);
         eduIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(eduIntent);
         finish();

@@ -11,7 +11,7 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:background="#2ECC71"/>
+        android:background="#2ECC71" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/avatar"
@@ -101,4 +101,14 @@
         android:background="#FFFFFFFF"
         android:shadowColor="#8F8989"
         android:text="@string/button_save" />
+
+    <ImageView
+        android:id="@+id/backtoProfile"
+        android:layout_width="27dp"
+        android:layout_height="31dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="380dp"
+        android:layout_marginBottom="3dp"
+        app:srcCompat="@drawable/back" />
 </RelativeLayout>

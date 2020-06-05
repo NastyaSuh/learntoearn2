@@ -66,7 +66,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="317dp"
+        android:layout_height="450dp"
         android:layout_below="@+id/first"
         android:layout_marginTop="10dp">
 
@@ -151,45 +151,20 @@
 
 
     </ScrollView>
+
     <Button
         android:id="@+id/startTest"
-        android:layout_marginTop="30dp"
+        style="@style/btn"
         android:layout_width="167dp"
         android:layout_height="46dp"
-        style="@style/btn"
-        android:background="#2ECC71"
         android:layout_alignParentEnd="true"
-        android:layout_above="@+id/footer"
-        android:text="Пройти тест"
-        android:textColor="@android:color/white"/>
-
-    <View
-        android:id="@+id/footer"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
         android:layout_alignParentBottom="true"
-        android:background="#EDECEC"
-        />
-    <ImageButton
-        android:id="@+id/homebtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/ImageBtn"
-        android:src="@drawable/homebtn"
-        android:layout_alignTop="@id/footer"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        />
-    <ImageButton
-        android:id="@+id/returnbtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/ImageBtn"
-        android:src="@drawable/backbtn"
-        android:layout_alignTop="@id/footer"
-        android:layout_marginTop="10dp"
-        android:layout_toLeftOf="@id/homebtn"
-        android:layout_marginEnd="60dp" />
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="30dp"
+        android:background="#2ECC71"
+        android:text="Пройти тест"
+        android:textColor="@android:color/white" />
 
 
 </RelativeLayout>

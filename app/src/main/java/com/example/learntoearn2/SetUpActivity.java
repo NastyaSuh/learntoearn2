@@ -8,12 +8,14 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -42,6 +44,7 @@ public class SetUpActivity extends AppCompatActivity {
     private CircleImageView avatar;
     String currentuserId;
     private ProgressDialog loadingBar;
+    private ImageView arrow;
 
     final static int Gallery_Pick = 102;
 
@@ -58,11 +61,13 @@ public class SetUpActivity extends AppCompatActivity {
         surname = findViewById(R.id.change_surname);
         saveInformation = findViewById(R.id.button_save);
         avatar = findViewById(R.id.avatar);
+        arrow = findViewById(R.id.backtoProfile);
 
         mAuth = FirebaseAuth.getInstance();
-        userRef = FirebaseDatabase.getInstance().getReference().child("Users");
+        currentuserId = mAuth.getCurrentUser().getUid();
+        userRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentuserId);
         UserProfileImageRef = FirebaseStorage.getInstance().getReference().child("Profile Images"); //создаем папку, где будут хранится фотографии
-        currentuserId = mAuth.getCurrentUser().getUid(); //получаем уникальный айдишник пользователя
+       //получаем уникальный айдишник пользователя
 
         loadingBar = new ProgressDialog(this);
 
@@ -91,7 +96,7 @@ public class SetUpActivity extends AppCompatActivity {
                         String image = dataSnapshot.child("profileimages").getValue().toString();
 
                         //Показываем изображение на месте
-                        Picasso.get().load(image).placeholder(R.drawable.profile).into(avatar);
+                        Picasso.get().load(image).into(avatar);
                     }
 
                     else{
@@ -103,6 +108,14 @@ public class SetUpActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
+
+        arrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SetUpActivity.this, Profile.class);
+                startActivity(intent);
             }
         });
     }
@@ -190,7 +203,7 @@ public class SetUpActivity extends AppCompatActivity {
             loadingBar.setCanceledOnTouchOutside(true);
 
             HashMap hashMap = new HashMap();
-            hashMap.put("name", username);
+            hashMap.put("name",  username);
             hashMap.put("surname", usersurname);
             hashMap.put("status", "Hey there! I am using Learn to Earn to learn Physics:)");
 

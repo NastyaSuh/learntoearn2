@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <View
         android:id="@+id/header"
         android:layout_width="match_parent"
@@ -32,7 +32,8 @@
         android:background="@drawable/start"
         android:layout_marginTop="30dp"
         android:layout_marginStart="50dp"/>
-        <TextView
+
+         <TextView
         android:id="@+id/startT"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -42,7 +43,8 @@
         android:layout_below="@id/startBtn"
         android:textSize="20sp"
         android:layout_marginStart="45dp"/>
-        <TextView
+
+         <TextView
         android:id="@+id/progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -61,17 +63,21 @@
         android:layout_toRightOf="@id/startBtn"
         android:layout_alignTop="@+id/startBtn"
         android:layout_marginStart="100dp" />
-        <TextView
-        android:id="@+id/thermsText"
-        android:layout_marginStart="100dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/therms"
-        android:fontFamily="@font/roboto_slab"
-        android:layout_toRightOf="@+id/startT"
-        android:text="@string/therms"
-        android:textColor="@android:color/black"
-        android:textSize="20dp" />
+
+         <TextView
+             android:id="@+id/thermsText"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_below="@id/therms"
+             android:layout_marginStart="75dp"
+             android:layout_marginLeft="74dp"
+             android:layout_marginTop="0dp"
+             android:layout_toRightOf="@+id/startT"
+             android:fontFamily="@font/roboto_slab"
+             android:text="@string/therms"
+             android:textColor="@android:color/black"
+             android:textSize="20dp" />
+
          <TextView
         android:id="@+id/progress1"
         android:layout_width="wrap_content"
@@ -113,36 +119,17 @@
              android:textColor="@android:color/black"
              android:layout_alignStart="@id/thirdText"
              android:layout_marginStart="40dp"/>
-
-
-
      </RelativeLayout>
    </ScrollView>
-    <View
-        android:id="@+id/footer"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
+
+    <ImageView
+        android:id="@+id/backtoProfile"
+        android:layout_width="27dp"
+        android:layout_height="31dp"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:background="#EDECEC"
-        />
-    <ImageButton
-        android:id="@+id/homebtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/ImageBtn"
-        android:src="@drawable/homebtn"
-        android:layout_alignTop="@id/footer"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        />
-    <ImageButton
-        android:id="@+id/returnbtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/ImageBtn"
-        android:src="@drawable/backbtn"
-        android:layout_alignTop="@id/footer"
-        android:layout_marginTop="10dp"
-        android:layout_toLeftOf="@id/homebtn"
-        android:layout_marginEnd="60dp" />
+        android:layout_marginEnd="380dp"
+        android:layout_marginBottom="3dp"
+        app:srcCompat="@drawable/back" />
+
 </RelativeLayout>

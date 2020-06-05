@@ -27,8 +27,6 @@ public class Therms extends AppCompatActivity {
     private TextView a1;
     private SharedPreferences s1;
     private SharedPreferences.Editor e1;
-    private ImageButton homeBtn;
-    private ImageButton returnBtn;
     int startCount;
 
     @Override
@@ -37,22 +35,7 @@ public class Therms extends AppCompatActivity {
         setContentView(R.layout.activity_therms);
         s1 = getSharedPreferences("Storage", MODE_PRIVATE);
         s1.getInt("progress1",MODE_PRIVATE);
-        returnBtn = findViewById(R.id.returnbtn);
-        homeBtn = findViewById(R.id.homebtn);
-        returnBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Therms.this,introduction.class);
-                startActivity(intent);
-            }
-        });
-        homeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Therms.this,Education_Site.class);
-                startActivity(intent);
-            }
-        });
+
         physicText1 = findViewById(R.id.startPhysic1);
         physicText1.setText(R.string.Text5);
         physicText1.setTextColor(Color.BLACK);

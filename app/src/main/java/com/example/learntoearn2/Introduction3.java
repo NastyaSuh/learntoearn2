@@ -29,8 +29,7 @@ public class Introduction3 extends AppCompatActivity {
     private TextView a1;
     private SharedPreferences s1;
     private SharedPreferences.Editor e1;
-    private ImageButton homeBtn;
-    private ImageButton returnBtn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,22 +37,7 @@ public class Introduction3 extends AppCompatActivity {
         setContentView(R.layout.activity_introduction3);
         s1 = getSharedPreferences("Storage", MODE_PRIVATE);
         s1.getInt("progress2",MODE_PRIVATE);
-        returnBtn = findViewById(R.id.returnbtn);
-        homeBtn = findViewById(R.id.homebtn);
-        returnBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Introduction3.this,introduction.class);
-                startActivity(intent);
-            }
-        });
-        homeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Introduction3.this,Education_Site.class);
-                startActivity(intent);
-            }
-        });
+
         a1 = findViewById(R.id.question);
         Text1 = findViewById(R.id.Text1);
         Text1.setText(R.string.Text7);

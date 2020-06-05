@@ -40,22 +40,7 @@ public class StartPhysic extends AppCompatActivity {
         setContentView(R.layout.activity_startphysic);
         s1 = getSharedPreferences("Storage", MODE_PRIVATE); //Создаём хранилище
         s1.getInt("progress",MODE_PRIVATE);
-        returnBtn = findViewById(R.id.returnbtn);
-        homeBtn = findViewById(R.id.homebtn);
-        returnBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(StartPhysic.this,introduction.class);
-                startActivity(intent);
-            }
-        });
-        homeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(StartPhysic.this, Education_Site.class);
-                startActivity(intent);
-            }
-        });
+
         first= findViewById(R.id.first);
         second=findViewById(R.id.second);
         third=findViewById(R.id.third);
