@@ -1,8 +1,11 @@
 package com.example.learntoearn2;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -14,6 +17,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -47,6 +52,7 @@ public class SetUpActivity extends AppCompatActivity {
     private ImageView arrow;
 
     final static int Gallery_Pick = 102;
+    int PreCode = 103;
 
     private FirebaseAuth mAuth;
     private DatabaseReference userRef;   //user Reference
@@ -81,7 +87,12 @@ public class SetUpActivity extends AppCompatActivity {
         avatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                open_gallery();
+                if(Build.VERSION.SDK_INT >= 23){
+                    Ask_for_gallery_permission();
+                }
+                else{
+                    open_gallery();
+                }
             }
         });
 
@@ -118,6 +129,23 @@ public class SetUpActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void Ask_for_gallery_permission() {
+        if(ContextCompat.checkSelfPermission(SetUpActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) !=
+                PackageManager.PERMISSION_GRANTED){
+            if(ActivityCompat.shouldShowRequestPermissionRationale(SetUpActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)){
+                Toast.makeText(SetUpActivity.this, "Разрешите, пожалуйста, доступ к галерее!",
+                        Toast.LENGTH_LONG).show();
+            }
+            else{
+                ActivityCompat.requestPermissions(SetUpActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        PreCode);
+            }
+        }
+        else{
+            open_gallery();
+        }
     }
 
     @Override

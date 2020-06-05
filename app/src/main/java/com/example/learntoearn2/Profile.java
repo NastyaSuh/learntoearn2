@@ -1,10 +1,13 @@
 package com.example.learntoearn2;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,6 +16,9 @@ import android.widget.Toolbar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,13 +35,12 @@ import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class Profile extends AppCompatActivity {
+public class Profile extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
     private RecyclerView postlist;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private Toolbar mToolbar;
-    private ActionBarDrawerToggle actionBarDrawerToggle;
     private CircleImageView Profile_ava;
     private TextView Navigation_name;
     private TextView Email;
@@ -47,6 +52,8 @@ public class Profile extends AppCompatActivity {
 
     String currentUserId;
 
+    private int Notif_Code = 105;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +63,12 @@ public class Profile extends AppCompatActivity {
         drawerLayout = findViewById(R.id.info_shutter);
         navigationView = findViewById(R.id.navigate);
         mToolbar = findViewById(R.id.main_info_bar);
+        setSupportActionBar(mToolbar);
 
         switch_notifications = findViewById(R.id.switch1);
+        if(switch_notifications != null){
+            switch_notifications.setOnCheckedChangeListener(Profile.this);
+        }
 
         mAuth=FirebaseAuth.getInstance();
         userReference = FirebaseDatabase.getInstance().getReference().child("Users");
@@ -82,10 +93,11 @@ public class Profile extends AppCompatActivity {
         setActionBar(mToolbar);
         getActionBar().setTitle("Профиль");
 
-        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open, R.string.drawer_close);
+        ActionBarDrawerToggle actionBarDrawerToggle;
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout ,R.string.drawer_open, R.string.drawer_close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        //getActionBar().setDisplayHomeAsUpEnabled(true);
 
         userReference.child(currentUserId).addValueEventListener(new ValueEventListener() {
             @Override
@@ -113,8 +125,11 @@ public class Profile extends AppCompatActivity {
         });
     }
 
+    private void setSupportActionBar(Toolbar mToolbar) {
+    }
 
-    @Override
+
+    /*@Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
         if(actionBarDrawerToggle.onOptionsItemSelected(item)) {
@@ -122,9 +137,19 @@ public class Profile extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }*/
+
+    @Override
+    public void onBackPressed() {
+        if(drawerLayout .isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
+
+        else{
+            super.onBackPressed();
+        }
+
     }
-
-
 
     private void UserMenuSelector(MenuItem item){
         switch (item.getItemId()){
@@ -197,5 +222,25 @@ public class Profile extends AppCompatActivity {
         eduIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(eduIntent);
         finish();
+    }
+
+    private void Ask_for_Notifications(){
+        if(ContextCompat.checkSelfPermission(Profile.this, Manifest.permission.ACCESS_NOTIFICATION_POLICY) !=
+                PackageManager.PERMISSION_GRANTED){
+            if(ActivityCompat.shouldShowRequestPermissionRationale(Profile.this,Manifest.permission.ACCESS_NOTIFICATION_POLICY)){
+                Toast.makeText(Profile.this, "Разрешите, пожалуйста, отправлять уведомления!",
+                        Toast.LENGTH_LONG).show();
+            }
+            else{
+                ActivityCompat.requestPermissions(Profile.this, new String[] {Manifest.permission.ACCESS_NOTIFICATION_POLICY},
+                        Notif_Code);
+            }
+        }
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        Toast.makeText(Profile.this, "Уведомления " + (isChecked ? "включены" : "выключены"),
+                Toast.LENGTH_SHORT).show();
     }
 }
